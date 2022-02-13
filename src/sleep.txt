@@ -1,0 +1,72 @@
+ #include <avr/sleep.h>
+#include <avr/power.h>
+#include <avr/interrupt.h>
+#include <util/delay.h>
+
+#define BUTTON_PIN 2
+#define LED_PIN       13
+
+void m_sleep();
+void m_wake_up();
+
+int main() 
+{
+  // все пины на выход и в низкий уровень
+  for (byte i = 0; i <= A7; i++) {
+    pinMode(i, OUTPUT);    
+    digitalWrite(i, LOW);
+  }
+
+  // установливаем на пине с кнопкой подтяжку к VCC
+  pinMode(BUTTON_PIN, INPUT);
+  digitalWrite(BUTTON_PIN, HIGH);
+  
+  // устанавливаем обработчик прерывания INT0
+  attachInterrupt(0, m_wake_up, FALLING);
+
+  while(true) {
+    // светим светодиодом 10 секунд
+    pinMode(LED_PIN, OUTPUT);
+    digitalWrite(13, HIGH);
+    
+    // Ждем 10 секунд
+    _delay_ms(10000);
+    digitalWrite(LED_PIN, LOW);  
+
+    // и засыпаем
+    m_sleep();
+    
+    // отсюда выполнения программы продолжится при пробуждении МК
+    // то есть снова светим 10 секунд и засыпаем
+  }
+}
+
+void m_sleep() {
+
+  // отключаем АЦП
+  ADCSRA = 0;  
+
+  // отключаем всю периферию
+  power_all_disable ();
+
+  // устанавливаем режим сна - самый глубокий, здоровый сон :)
+  set_sleep_mode (SLEEP_MODE_PWR_DOWN);  
+
+  // разрешаем спящий режим
+  sleep_enable();
+
+  // разрешаем прерывания
+  sei();
+  
+  // собственно засыпаем
+  sleep_cpu();              
+}
+
+void m_wake_up ()
+{
+  // запрещаем режим сна
+  sleep_disable();
+  
+  // запрещаем прерывания
+  cli();
+}
