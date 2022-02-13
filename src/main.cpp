@@ -299,8 +299,15 @@ void dstop(int s) // ручник
 
 void dlight(int s)// дальний
 {
- 
-
+ if (s==1){
+  tft.fillRect(299, 104, 49/*ширина*/, 49/*высота*/, BLUE);
+  tft.drawLine(324,110,324,145,WHITE);//
+  tft.drawLine(320,110,310,145,WHITE);//
+  tft.drawLine(328,110,338,145,WHITE);//
+ }
+ else{
+  tft.fillRect(299, 104, 49/*ширина*/, 49/*высота*/, BLACK);
+ }
 }
 
 void dtemp(int s)// температура ОЖ
@@ -328,6 +335,23 @@ void dhot(int s)// перегрев ОЖ
  }
  else{
   tft.fillRect(249, 54, 48/*ширина*/, 49/*высота*/, BLACK);
+ }
+}
+
+void dnakal(int s)//
+{
+   int xt=0;
+   int yt=0;
+ if(s==1){
+    tft.fillRect(249, 104, 48/*ширина*/, 49/*высота*/, YELLOW);
+    tft.setFont(&FreeSans9pt7b);
+    tft.setCursor(261+xt, 139+yt);
+    tft.setTextColor(BLACK);
+    tft.setTextSize(2);
+    tft.print("D");    
+ }
+ else{
+  tft.fillRect(249, 104, 48/*ширина*/, 49/*высота*/, BLACK);
  }
 }
 
@@ -428,6 +452,7 @@ dtemp(1);
 dmaslo(1);
 dlevel(1);
 dhot(1);
+dnakal(1);
 }
 
 void loop(void) 
