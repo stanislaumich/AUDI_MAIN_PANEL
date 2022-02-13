@@ -8,6 +8,8 @@
 #include <Fonts/FreeSerif12pt7b.h>
 #include <FreeDefaultFonts.h>
 
+// размер экрана отверстие 52 на 88
+
 
 // All the mcufriend.com UNO shields have the same pinout.
 // i.e. control pins A0-A4.  Data D2-D9.  microSD D10-D13.
@@ -310,9 +312,53 @@ void dlight(int s)// дальний
  }
 }
 
-void dtemp(int s)// температура ОЖ
+void dtemp(String s)// температура ОЖ
 {
- //
+    int x0=0;
+    int y0=0;
+    
+    s.toCharArray(cstr, s.length()+1);
+    tft.drawRect(102+x0, 54+y0, 80, 38, DARKGREY);// второй ширина потом высота
+    tft.setFont(&FreeSans9pt7b);
+    tft.setCursor(107+x0, 84+y0);
+    tft.setTextColor(DARKGREY);
+    tft.setTextSize(2);
+    tft.print(cstr);
+
+}
+
+void dvolt(String s)// напряжение
+{
+    int x0=0;
+    int y0=0;
+    
+    s.toCharArray(cstr, s.length()+1);
+    tft.drawRect(1+x0, 54+y0, 99, 38, DARKGREY);// второй ширина потом высота
+    tft.setFont(&FreeSans9pt7b);
+    tft.setCursor(3+x0, 84+y0);
+    tft.setTextColor(DARKGREY);
+    tft.setTextSize(2);
+    tft.print(cstr);
+
+}
+
+void dfuel(String s)// топливо
+{
+    int x0=0;
+    int y0=0;
+    int x1=0;
+    int y1=0;
+
+    s.toCharArray(cstr, s.length()+1);
+    tft.drawRect(184+x0, 54+y0, 52, 38, DARKGREY);// второй ширина потом высота
+    tft.setFont(&FreeSans9pt7b);
+    tft.setCursor(188+x0, 84+y0);
+    tft.setTextColor(DARKGREY);
+    tft.setTextSize(2);
+    tft.print(cstr);
+    int v=40;
+    tft.drawRect(1+x1, 94+y1, 35, 144, DARKGREY);
+    tft.fillRect(3+x1, 96+y1+v, 31, 140-v, YELLOW);
 
 }
 
@@ -338,7 +384,7 @@ void dhot(int s)// перегрев ОЖ
  }
 }
 
-void dnakal(int s)//
+void dnakal(int s)// свечи накала
 {
    int xt=0;
    int yt=0;
@@ -426,8 +472,8 @@ void setup(void)
     tft.setTextSize(2);
     i=0;
     
- Serial.println(tw);
- Serial.println(th);
+ //Serial.println(tw);
+ //Serial.println(th);
  /*tft.drawFastHLine(0,0,tft.width()-1,GREEN) ;// ok
  tft.drawFastHLine(0,tft.height()-1,tft.width()-1,GREEN) ;// ok
  tft.drawFastVLine(0,0,tft.height()-1,GREEN) ;// ok
@@ -441,6 +487,8 @@ void setup(void)
 //tft.fillRect(299, 51, 50/*ширина*/, 50/*высота*/, RED);
 //tft.fillRect(249, 51, 50/*ширина*/, 50/*высота*/, BLUE);
 
+tft.drawRect(38,94,198,144,DARKGREY);
+
 davarika(1);
 dpovorot(1);
 dstop(1);
@@ -448,11 +496,13 @@ speed=67;
 dspeed(String(98));
 dtaho("3500");
 dlight(1);
-dtemp(1);
+dtemp("99 c");
 dmaslo(1);
 dlevel(1);
 dhot(1);
 dnakal(1);
+dfuel("40");
+dvolt("13.7v");
 }
 
 void loop(void) 
