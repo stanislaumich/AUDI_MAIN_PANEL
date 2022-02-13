@@ -312,6 +312,22 @@ void dlight(int s)// дальний
  }
 }
 
+void dback(int s)//
+{
+  if(s==1){
+   tft.drawRect(350, 104, 49/*ширина*/, 49/*высота*/, LIGHTGREY);
+   tft.drawRect(355, 114, 39/*ширина*/, 29/*высота*/, BLUE);
+   tft.drawRect(355, 124, 39/*ширина*/, 9/*высота*/, BLUE);
+   tft.drawFastVLine(364,120,15,RED);
+   tft.drawFastVLine(374,120,15,RED);
+   tft.drawFastVLine(384,120,15,RED);
+  }
+  else
+  {
+  tft.fillRect(350, 104, 49/*ширина*/, 49/*высота*/, BLACK);
+  }
+}
+
 void dtemp(String s)// температура ОЖ
 {
     int x0=0;
@@ -503,6 +519,7 @@ dhot(1);
 dnakal(1);
 dfuel("40");
 dvolt("13.7v");
+dback(1);
 }
 
 void loop(void) 
