@@ -292,6 +292,53 @@ void dstop(int s)
   tft.print("P");
 }
 
+void dlight(int s){
+ //tft.fillRect(249, 53, 50/*ширина*/, 50/*высота*/, BLUE);
+
+}
+
+void dtemp(int s){
+ //tft.fillRect(299, 53, 50/*ширина*/, 50/*высота*/, RED);
+
+}
+
+void dmaslo(int s){
+ //tft.fillRect(349, 53, 50/*ширина*/, 50/*высота*/, RED);
+ int x0=-5;
+ int y0=-20;
+ int xt=0;
+ int yt=60;
+ if(s==1){
+   tft.fillRect(349, 53, 50/*ширина*/, 50/*высота*/, RED);
+   tft.drawLine(364+x0,94+y0,384+x0,94+y0,BLACK);//bottom
+   tft.drawLine(364+x0,94+y0,364+x0,90+y0,BLACK);//left
+   tft.drawLine(364+x0,90+y0,360+x0,85+y0,BLACK);// 3 линии левая ручка
+   tft.drawLine(360+x0,85+y0,362+x0,80+y0,BLACK);//2
+   tft.drawLine(362+x0,80+y0,364+x0,90+y0,BLACK);//3
+   tft.drawLine(364+x0,90+y0,367+x0,85+y0,BLACK);//
+   tft.drawLine(367+x0,85+y0,378+x0,85+y0,BLACK);//
+   tft.drawLine(378+x0,85+y0,380+x0,88+y0,BLACK);//
+   tft.drawLine(380+x0,88+y0,395+x0,86+y0,BLACK);// nose 
+   tft.drawLine(395+x0,86+y0,384+x0,94+y0,BLACK);//
+
+   tft.drawLine(396+x0,88+y0,395+x0,90+y0,BLACK);// капля
+   tft.drawLine(396+x0,88+y0,397+x0,90+y0,BLACK);
+
+   tft.drawLine(373+x0,84+y0,373+x0,81+y0,BLACK);// крышка
+   tft.drawLine(371+x0,81+y0,375+x0,81+y0,BLACK);
+
+   tft.setFont(&FreeSans9pt7b);
+   tft.setCursor(360+xt, 37+yt);
+   tft.setTextColor(WHITE);
+   tft.setTextSize(1);
+   tft.print("OIL");
+ }
+ else{
+   tft.fillRect(349, 53, 50/*ширина*/, 50/*высота*/, BLACK);
+ }
+
+}
+
 void setup(void) 
 {
     Serial.begin(9600); 
@@ -326,7 +373,9 @@ dstop(1);
 speed=67;
 dspeed(String(98));
 dtaho("3500");
-//dpovorot(0);
+dlight(1);
+dtemp(1);
+dmaslo(1);
 }
 
 void loop(void) 
