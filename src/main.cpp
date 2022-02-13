@@ -273,6 +273,23 @@ void dtaho(String t)
     showmsgXY(110, 51, 1, &FreeSevenSegNumFont,YELLOW, cstr);
 }
 
+void dstop(int s)
+{
+  tft.drawLine(317,1,333,1,RED);//up 304 346
+  tft.drawLine(317,50,333,50,RED);//bottom
+  tft.drawLine(304,16,304,35,RED);//left
+  tft.drawLine(346,16,346,35,RED);//right
+  tft.drawLine(304,16,317,1,RED);//from 10 clock
+  tft.drawLine(333,1,346,16,RED);//bottom
+  tft.drawLine(346,35,333,50,RED);//left
+  tft.drawLine(317,50,304,35,RED);//right
+  tft.setFont(&FreeSans9pt7b);
+  tft.setCursor(315, 37);
+  tft.setTextColor(RED);
+  tft.setTextSize(2);
+  tft.print("P");
+}
+
 void setup(void) 
 {
     Serial.begin(9600); 
@@ -302,10 +319,12 @@ void setup(void)
 //tft.fillRect(249, 51, 50/*ширина*/, 50/*высота*/, BLUE);
 
 davarika(1);
+dpovorot(1);
+dstop(1);
 speed=67;
-dspeed(String(speed));
+dspeed(String(98));
 dtaho("3500");
-dpovorot(0);
+//dpovorot(0);
 }
 
 void loop(void) 
@@ -449,14 +468,14 @@ default:
 }
 }
 
-
+/*
 davarika(0);
 dpovorot(1);
 delay(500);
 davarika(1);
 dpovorot(0);
 delay(500);
-    
+*/    
     
 dspeed(String(speed));
 
