@@ -222,6 +222,10 @@ void showmsgXY(int x, int y, int sz, const GFXfont *f, int col,  const char *msg
     tft.print(msg);
 }
 
+void sound(int s){
+
+}
+
 void davarika(int s)
 {
  if (s==1){ 
@@ -237,7 +241,7 @@ void davarika(int s)
 }
 
 void dpovorot(int s){
-  
+  sound(s);
   //tft.fillRect(249, 1, 50/*ширина*/, 50/*высота*/, GREEN);
   tft.fillTriangle(249, 25, 269, 4, 269, 46, GREEN);  //l
   tft.fillTriangle(280, 4, 300, 25, 280, 46, GREEN);//r
@@ -252,7 +256,8 @@ void dpovorot(int s){
 
 }
 
-void dspeed(String s){
+void dspeed(String s)// спидометр
+{
     speedcur=s;
     //if (speedcur.length()<2) 
     speedcur=" "+speedcur;
@@ -266,14 +271,14 @@ void dspeed(String s){
     }
 }
 
-void dtaho(String t)
+void dtaho(String t) // тахометр
 {
     t.toCharArray(cstr, t.length()+1);
     tft.fillRect(96,1, 95, 50, BLACK);
     showmsgXY(110, 51, 1, &FreeSevenSegNumFont,YELLOW, cstr);
 }
 
-void dstop(int s)
+void dstop(int s) // ручник
 {
   tft.drawLine(317,1,333,1,RED);//up 304 346
   tft.drawLine(317,50,333,50,RED);//bottom
@@ -282,34 +287,79 @@ void dstop(int s)
   tft.drawLine(304,16,317,1,RED);//from 10 clock
   tft.drawLine(333,1,346,16,RED);//bottom
   tft.drawLine(346,35,333,50,RED);//left
-  tft.drawLine(317,50,304,35,RED);//right
-  
+  tft.drawLine(317,50,304,35,RED);//right  
   
   tft.setFont(&FreeSans9pt7b);
   tft.setCursor(315, 37);
   tft.setTextColor(RED);
   tft.setTextSize(2);
   tft.print("P");
+  sound(s);
 }
 
-void dlight(int s){
- //tft.fillRect(249, 53, 50/*ширина*/, 50/*высота*/, BLUE);
-
-}
-
-void dtemp(int s){
- //tft.fillRect(299, 53, 50/*ширина*/, 50/*высота*/, RED);
+void dlight(int s)// дальний
+{
+ 
 
 }
 
-void dmaslo(int s){
+void dtemp(int s)// температура ОЖ
+{
+ //
+
+}
+
+void dhot(int s)// перегрев ОЖ
+{
+   int xt=0;
+   int yt=0;
+ if(s==1){
+    tft.fillRect(249, 54, 48/*ширина*/, 49/*высота*/, RED);
+    tft.setFont(&FreeSans9pt7b);
+    tft.setCursor(255+xt, 76+yt);
+    tft.setTextColor(WHITE);
+    tft.setTextSize(1);
+    tft.print("HOT");
+    tft.setCursor(255+xt, 93+yt);
+    tft.setTextColor(BLACK);
+    tft.print("XXX");
+    
+    
+ }
+ else{
+  tft.fillRect(249, 54, 48/*ширина*/, 49/*высота*/, BLACK);
+ }
+}
+
+void dlevel(int s) // уровень ОЖ
+{
+   int xt=0;
+   int yt=0;
+  if(s==1){
+    tft.fillRect(299, 54, 49/*ширина*/, 49/*высота*/, RED);
+    tft.setFont(&FreeSans9pt7b);
+    tft.setCursor(305+xt, 76+yt);
+    tft.setTextColor(WHITE);
+    tft.setTextSize(1);
+    tft.print("HOT");
+    tft.setCursor(303+xt, 93+yt);
+    tft.print("LOW");
+  }
+  else{
+    tft.fillRect(298, 54, 49/*ширина*/, 49/*высота*/, BLACK);
+  }
+  sound(s);
+}
+
+void dmaslo(int s) // давление масла
+{
  //tft.fillRect(349, 53, 50/*ширина*/, 50/*высота*/, RED);
  int x0=-5;
  int y0=-20;
  int xt=0;
  int yt=60;
  if(s==1){
-   tft.fillRect(349, 53, 50/*ширина*/, 50/*высота*/, RED);
+   tft.fillRect(350, 54, 49/*ширина*/, 49/*высота*/, RED);
    tft.drawLine(364+x0,94+y0,384+x0,94+y0,BLACK);//bottom
    tft.drawLine(364+x0,94+y0,364+x0,90+y0,BLACK);//left
    tft.drawLine(364+x0,90+y0,360+x0,85+y0,BLACK);// 3 линии левая ручка
@@ -334,9 +384,9 @@ void dmaslo(int s){
    tft.print("OIL");
  }
  else{
-   tft.fillRect(349, 53, 50/*ширина*/, 50/*высота*/, BLACK);
+   tft.fillRect(349, 54, 50/*ширина*/, 50/*высота*/, BLACK);
  }
-
+ sound(s);
 }
 
 void setup(void) 
@@ -376,6 +426,8 @@ dtaho("3500");
 dlight(1);
 dtemp(1);
 dmaslo(1);
+dlevel(1);
+dhot(1);
 }
 
 void loop(void) 
