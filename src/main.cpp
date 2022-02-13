@@ -283,6 +283,8 @@ void dstop(int s)
   tft.drawLine(333,1,346,16,RED);//bottom
   tft.drawLine(346,35,333,50,RED);//left
   tft.drawLine(317,50,304,35,RED);//right
+  
+  
   tft.setFont(&FreeSans9pt7b);
   tft.setCursor(315, 37);
   tft.setTextColor(RED);
