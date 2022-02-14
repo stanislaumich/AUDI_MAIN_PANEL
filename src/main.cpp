@@ -2,7 +2,7 @@
 #include <Tone.h> // 1 kb
 #include "Adafruit_GFX.h"// Hardware-specific library
 #include <MCUFRIEND_kbv.h>
-#include "GBUSmini.h"  // мини-библиотека с лёгкими функциями
+#include "GBUSmini.h"  // мини-библиотека с лёгкими функциями но блокирующая!! MicroUART может его
 #include <Fonts/FreeSans9pt7b.h>
 #include <Fonts/FreeSans12pt7b.h>
 #include <Fonts/FreeSerif12pt7b.h>
