@@ -1,7 +1,8 @@
 #include <Arduino.h>
+#include <Tone.h> // 1 kb
 #include "Adafruit_GFX.h"// Hardware-specific library
 #include <MCUFRIEND_kbv.h>
-//#include "GyverUART.h";
+#include "GBUSmini.h"  // мини-библиотека с лёгкими функциями
 #include <Fonts/FreeSans9pt7b.h>
 #include <Fonts/FreeSans12pt7b.h>
 #include <Fonts/FreeSerif12pt7b.h>
@@ -9,6 +10,16 @@
 
 // размер экрана отверстие 52 на 88
 
+// дефайны для данных по порту
+#define RX_PIN 4    // пин
+#define RX_ADDR 3   // наш адрес
+byte data[6];       // приёмный буфер (байты)
+// первый байт - идентификатор сообщения
+// 5 байт данных, например 23-59 время это 2 байта
+// 12,8 - 2 байта напряжение
+// датчик - номер датчика 1 байт и его состояние - 1 байт
+// скорость - 1 байт
+// тахометр - 2 байта
 
 // All the mcufriend.com UNO shields have the same pinout.
 // i.e. control pins A0-A4.  Data D2-D9.  microSD D10-D13.
@@ -53,7 +64,7 @@ char cstr[80];
 String speedprev="0";
 String speedcur="0";
 
-
+Tone snd;
 
 /*------------------------------------------------------*/
 
@@ -149,7 +160,7 @@ void showmsgXY(int x, int y, int sz, const GFXfont *f, int col,  const char *msg
 
 void sound(int s)// звук
 {
-
+ snd.play(13,1000);// тон и длинна
 }
 
 void davarika(int s) // аварийка
@@ -396,7 +407,10 @@ void dclock(String s)// отображение времени
 
 void setup(void) 
 {
-    Serial.begin(9600); 
+    snd.begin(1);// для звука
+    // для шины передачи  
+    pinMode(RX_PIN, INPUT_PULLUP);// ПИН ОБЯЗАТЕЛЬНО PULLUP!!!111
+    //Serial.begin(9600); 
     uint16_t ID = tft.readID(); //
     Serial.println(ID, HEX);
     tft.begin(ID);  // my is 9327
@@ -425,17 +439,70 @@ dback(1);
 dclock("23:59");
 }
 
+void workdigital(int dat, int state)// обработка двоичных датчиков вкл выкл
+{
+switch(dat)
+          {
+                case 1: davarika(state);
+                break;
+                case 2: dpovorot(state);
+                break;
+                case 3: dstop(state);
+                break;
+                case 4: dlight(state);
+                break;
+                case 5: dmaslo(state);
+                break;
+                case 6: dlevel(state);
+                break;
+                case 7: dhot(state);
+                break;
+                case 8: dnakal(state);
+                break;
+                case 9: dback(state);
+                break;
+          }
+
+}
+
 void loop(void) 
 {  
+  if (GBUS_read(RX_PIN, RX_ADDR, data, sizeof(data))) {
+      if (data[0]==7)// это показания цифровых датчиков - вкл выкл
+      {
+        workdigital(data[1], data[2]);  
+      }
+      else if (data[0]==6)// это передача времени
+      {
+        /* code */
+      }
+      else if(data[0]==5)// датчик со значением, периодический, скорость тахометр топливо
+      {
+            switch(data[1]){ // всё перевести в числа!!
+                  case 1:dspeed(String(data[2]));// тут внимание!!!
+                  break;
+                  case 2:dtaho(String(data[2]));// тут внимание!!!
+                  break;
+                  case 3:dtemp(String(data[2]));//тут внимание!!!
+                  break;
+                  case 4:dfuel(String(data[2]));// тут внимание!!!
+                  break;
+                  case 5:dvolt(String(data[2]));// тут внимание!!!
+                  break;
+            }
+      }
+        
 
-  while (Serial.available() > 0) {
-    char inChar = Serial.read();
-    //inString += inChar;
-    if (inChar == '\n') {    
-    
+
+
+    // если успешно приняли
+    /*for (byte i = 0; i < sizeof(data); i++) {
+      Serial.print(data[i]);
+      Serial.print(", ");
     }
-  }  
+    Serial.println();*/
+  }
 
-dspeed(String(speed));
+//dspeed(String(speed));
 
 }
