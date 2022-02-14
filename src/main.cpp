@@ -1,5 +1,4 @@
 #include <Arduino.h>
-//#include "LowPower.h"
 #include "Adafruit_GFX.h"// Hardware-specific library
 #include <MCUFRIEND_kbv.h>
 //#include "GyverUART.h";
@@ -268,7 +267,7 @@ void dvolt(String s)// напряжение
 {
     int x0=0;
     int y0=0;
-    
+    s=s+'v';
     s.toCharArray(cstr, s.length()+1);
     tft.drawRect(1+x0, 54+y0, 99, 38, DARKGREY);// второй ширина потом высота
     tft.setFont(&FreeSans9pt7b);
@@ -388,6 +387,11 @@ void dmaslo(int s) // давление масла
  sound(s);
 }
 
+void dclock(String s)// отображение времени
+{
+
+
+}
 /*------------------------------------------------------*/
 
 void setup(void) 
@@ -416,8 +420,9 @@ dlevel(1);
 dhot(1);
 dnakal(1);
 dfuel("40");
-dvolt("13.7v");
+dvolt("13.7");
 dback(1);
+dclock("23:59");
 }
 
 void loop(void) 
