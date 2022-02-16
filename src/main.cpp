@@ -9,6 +9,14 @@
 #include <Fonts/FreeSerif12pt7b.h>
 #include <FreeDefaultFonts.h>
 
+/*
+для подключения к кому атмеги выключить 1 2 5 6 
+остальные включить а то не найдёт
+
+"C:\avrdude" "-CC:\avrdude.conf" -v -V -patmega328p -carduino "-PCOM7" -b115200 -D "-Uflash:w:C:\Blink.ino.hex:i"
+*/
+
+
 // размер экрана отверстие 52 на 88
 
 // дефайны для данных по порту
