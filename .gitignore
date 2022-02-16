@@ -1,5 +1,3 @@
-up to inet - push.bat
-from inet - pull.bat
 *.place
 # Prerequisites
 *.d
@@ -33,3 +31,4 @@ from inet - pull.bat
 *.exe
 *.out
 *.app
+up to inet - push.bat
